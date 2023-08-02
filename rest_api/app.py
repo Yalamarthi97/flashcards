@@ -3,7 +3,7 @@ import os
 from flask import Flask
 from flask_cors import CORS
 
-
+from handler.cards.urls import  card_urls_v1
 def create_app():
     app = Flask(__name__)
 
@@ -11,7 +11,10 @@ def create_app():
     CORS(app)
 
     app.secret_key = os.environ.get("FLASK_APP_SECRET", "hello")
-    app.config["DEBUG"] = True
+    app.config.from_pyfile('config.py')
+    
+
+    card_urls_v1(app,prefix="v1")
 
     app.app_context().push()
     return app
