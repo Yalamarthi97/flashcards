@@ -30,7 +30,30 @@ class PostgresDriver:
         except Exception as e:
             logging.error("Encountered error when fetching data from db -> "+str(e))
             return None,"Failed to fetch data"
+    
+    @use_cursor
+    @do_in_transaction
+    def execute_fetch_query_single_row(self,query,cursor):
+        try:
+            cursor.execute(query)
+            response = cursor.fetchone()
+            return response,None
+        except Exception as e:
+            logging.error("Encountered error when fetching data from db -> "+str(e))
+            return None,"Failed to fetch data"
+    
+    @use_cursor
+    @do_in_transaction
+    def execute_fetch_query_for_all_data(self,query,cursor):
+        try:
+            cursor.execute(query)
+            response = cursor.fetchall()
+            return response,None
+        except Exception as e:
+            logging.error("Encountered error when fetching data from db -> "+str(e))
+            return None,"Failed to fetch data"
         
+
     @use_cursor
     @do_in_transaction
     def execute_query(self,query,cursor):
