@@ -17,7 +17,15 @@ class CardsV1(MethodView):
             return_response,error = fetch_one_card()
             if error:
                 return {"error":"Failed to fetch card","type":"text"},500
-            return {"message":return_response,"type":"dict"} , 200
+            return {"message":return_response,"type":"text"} , 200
+        else:
+            db_not_empty,error = check_data_exists()
+            if error:
+                return {"error":"Failed to fetch card","type":"text"},500
+            if db_not_empty:
+                return {"message":"You have no more words to review; you are permanently done!","type":"text"} , 200
+            else:
+                return {"error":"There is no data in the data base","type":"text"} , 404
 
 
     @schema_validation(schema=create_card_schema)
