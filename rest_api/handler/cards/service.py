@@ -35,10 +35,12 @@ def fetch_one_card():
     response={}
     if error:
         return {},"Failed to fetch the card from the database"
-
-    for key in range(0,len(db_fetch)):
-        response[list_of_fetch_cards_cols[key]]=db_fetch[key]
-    return response,None
+    if db_fetch:
+        for key in range(0,len(db_fetch)):
+            response[list_of_fetch_cards_cols[key]]=db_fetch[key]
+        return response,None
+    else:
+        return "You are temporarily done; please come back later to review more words."  ,None
 
 def update_card_desc(card_desc,card_id):
     query=update_card_desc_query(card_desc,card_id)

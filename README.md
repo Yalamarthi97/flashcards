@@ -4,8 +4,8 @@ Added skeleton code for BE
 Added skeleton code for FE
 
 
-Time used -> 3 hours 50 or almost 4 hours 
-Time left -> around 2 
+Time used -> prob 4 hours and 20 mins or so
+Time left -> 1 hours and 40
 
 
 for now checking only under cards table but need to check under forgotten cards as well as we should not create the card with same value and desc if it is forgotten or already present
@@ -74,9 +74,9 @@ b. error and general responses ( more of error catching and returning the errors
 
 Things I still need to do:
 1. Refactor the code ( its a maybe and under low prior)
-2. Added 2 or 3 more checks to return "you are temp done" and "completely done" under get
+2. Added 2 or 3 more checks to return "you are temp done" and "completely done" under get ( complete )
 3. Merge the psql and backend into the same docker file.
-4. Test and bug fix the code
+4. Test and bug fix the code ( majority of it is done )
 
 
 Improvements:
