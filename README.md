@@ -78,7 +78,8 @@ Things I still need to do:
 3. Merge the psql and backend into the same docker file.
 4. Test and bug fix the code ( majority of it is done )
 5. Prevent incoming request to jump states 
-    Right now if the incoming state update is to 2 and in the next request I pass 9 , it goes through but it should not be the case. From 2 it needs to go to 3
+    Right now if the incoming state update is to 2 and in the next request I pass 9 , it goes through but it should not be the case. From 2 it needs to go to 3 ( This is complete )
+6. A issue only when sending requests from BE, If we keep sending the card updates for success or failure even after the thershold is hit ( 11 for stage and 10  for wrong , they keep updating ) ( complete )
 
 
 Improvements:

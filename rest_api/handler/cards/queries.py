@@ -10,6 +10,11 @@ def check_data_valid_exists_query():
 def check_data_exists_query():
     return f""" select exists ( select 1 from cards );"""
 
+def check_card_valid_query(card_id):
+    return f"""select exists(select 1 from cards where id={card_id} and hidden = false);"""
+
+def fetch_current_stage_and_wrong_choice(card_id):
+    return f"""select current_stage , wrong_choices from cards where id={card_id}"""
 
 def fetch_one_card_query(current_timestamp):
     return f"""select id,card_key,card_desc,up_in,current_stage,wrong_choices from cards where current_stage = 0 and hidden = false union select id,card_key,card_desc,up_in,current_stage,wrong_choices from cards where up_in < {current_timestamp} and hidden = false order by current_stage desc limit 1"""

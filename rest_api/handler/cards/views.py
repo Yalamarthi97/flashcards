@@ -4,7 +4,7 @@ from flask import request
 from common.validations import return_json_response,schema_validation
 
 from .schemas import create_card_schema,update_card_desc_schema,update_card_state_schema
-from .service import check_card_exists,add_card_to_db,check_valid_data_exists,fetch_one_card,update_card_desc,check_card_validity_and_update,get_card_or_cards,get_success_or_failed_cards,check_data_exists,reset_all_or_one_cards
+from .service import *
 class CardsV1(MethodView):
     @return_json_response
     def get(self):
@@ -47,17 +47,19 @@ class CardsV1(MethodView):
     @return_json_response
     def patch(self,request_body):
         card_id=request_body["id"]
-        wrong_choices=request_body["wrong_choices"]
-        current_stage=request_body["current_stage"]
-        if str(request_body["answered"]) == "True" or str(request_body["answered"])=="true":
-            answered=True
+        card_valid,error=check_card_valid(card_id)
+        if card_valid:
+            if str(request_body["answered"]) == "True" or str(request_body["answered"])=="true":
+                answered=True
+            else:
+                answered=False
+            
+            error=check_card_validity_and_update(card_id,answered)
+            if error:
+                return {"error":"Failed to save card","type":"text"} , 500
+            return {"message":"Updated the card state","type":"text"} , 200
         else:
-            answered=False
-        
-        error=check_card_validity_and_update(card_id,wrong_choices,current_stage,answered)
-        if error:
-            return {"error":"Failed to save card","type":"text"} , 500
-        return {"message":"Updated the card state","type":"text"} , 200
+            return {"message":"Card with this id is either complete or marked as forgotten , try resetting it","type":"text"} , 200
         
 
 class AdminCards(MethodView):

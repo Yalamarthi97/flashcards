@@ -3,7 +3,7 @@ import time
 from drivers.psql_driver import driver as psql_object
 from common.constants import list_of_fetch_cards_cols,default_timelimits,admin_list_of_fetch_cards_cols
 
-from .queries import check_unique_card_value_query,insert_card_into_db_query,check_data_valid_exists_query,fetch_one_card_query,update_card_desc_query,set_card_to_next_stage_query,check_card_with_id_exists_query,get_cards_query,get_success_or_failed_cards_query,check_data_exists_query,reset_card_or_cards_query
+from .queries import *
 from .utils import extract_admin_return_data
 
 psql_instance=psql_object.get_instance()
@@ -12,6 +12,12 @@ def check_card_exists(card_key,card_desc):
     query=check_unique_card_value_query(card_key,card_desc)
     response,error=psql_instance.execute_fetch_query_single_value(query)
     return response,error
+
+def check_card_valid(card_id):
+    query=check_card_valid_query(card_id)
+    response,error=psql_instance.execute_fetch_query_single_value(query)
+    return response,error
+
 
 def add_card_to_db(card_key,card_desc):
     query=insert_card_into_db_query(card_key,card_desc)
@@ -47,19 +53,31 @@ def update_card_desc(card_desc,card_id):
     error=psql_instance.execute_query(query)
     return error
 
-def check_card_validity_and_update(card_id,wrong_choices,current_stage,answered):
+def check_card_validity_and_update(card_id,answered):
     query=""
+    current_stage_query=fetch_current_stage_and_wrong_choice(card_id)
+    response,error=psql_instance.execute_fetch_query_single_row(current_stage_query)
+    
+    """ Fetching current_stage at pos 0 and wrong_choice from pos 1 , This is to prevent jumps from state 0 to 10 from requests
+     Better way would have been to increment and decrement the values but i still need current_stage and wrong_choices
+    as i have a time increment """
+    if response:
+        current_stage=response[0]
+        wrong_choice=response[1]
+    if error or not response:
+        return "Failed to connect to db to get current stage"
+   
     if not answered:
-        if wrong_choices + 1 == 10:
+        if wrong_choice + 1 == 10:
             query=set_card_to_next_stage_query(card_id,current_stage,10,int(time.time()))
         else:
-            query=set_card_to_next_stage_query(card_id,1,wrong_choices+1,int(time.time())+5)
+            query=set_card_to_next_stage_query(card_id,1,wrong_choice+1,int(time.time())+5)
             
     if answered:
         if current_stage+1 == 11:
-            query=set_card_to_next_stage_query(card_id,11,wrong_choices,int(time.time()))
+            query=set_card_to_next_stage_query(card_id,11,wrong_choice,int(time.time()))
         else:
-            query=set_card_to_next_stage_query(card_id,current_stage+1,wrong_choices,int(time.time())+default_timelimits[current_stage])
+            query=set_card_to_next_stage_query(card_id,current_stage+1,wrong_choice,int(time.time())+default_timelimits[current_stage])
 
     error=psql_instance.execute_query(query)
     if error:
