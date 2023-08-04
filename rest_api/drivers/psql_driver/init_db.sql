@@ -29,3 +29,5 @@ create table cards (
     hidden bool default  false,
     answered_wrong bool
 );
+
+alter table cards drop column answered_wrong;
