@@ -49,7 +49,7 @@ class CardsV1(MethodView):
         card_id=request_body["id"]
         wrong_choices=request_body["wrong_choices"]
         current_stage=request_body["current_stage"]
-        if ["true","True"] in list(request_body["answered"]):
+        if str(request_body["answered"]) == "True" or str(request_body["answered"])=="true":
             answered=True
         else:
             answered=False

@@ -59,7 +59,7 @@ def check_card_validity_and_update(card_id,wrong_choices,current_stage,answered)
         if current_stage+1 == 11:
             query=set_card_to_next_stage_query(card_id,11,wrong_choices,int(time.time()))
         else:
-            query=set_card_to_next_stage_query(card_id,current_stage+1,wrong_choices,int(time.time())+default_timelimits[current_stage+1])
+            query=set_card_to_next_stage_query(card_id,current_stage+1,wrong_choices,int(time.time())+default_timelimits[current_stage])
 
     error=psql_instance.execute_query(query)
     if error:
