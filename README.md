@@ -21,4 +21,5 @@ Hour 1 + 20 mins:  Time left approx -> 5 hours 40 mins
 9. Tried connecting to psql through docker ( i kinda was left searching for some answers on the internet)
 10. Iterated over various ways on how  i can acheive this project
 
-
+Spent 25 mins, looking into the schema for the db , altering the existing one and trying to create queries
+Combined both the tables into 1 as I felt having 2 seperate right now might not be required.

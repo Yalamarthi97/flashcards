@@ -1,0 +1,1 @@
+list_of_fetch_cards_cols=['id','card_key','card_desc','up_in','current_stage','wrong_choices']

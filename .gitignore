@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 # Removing app data files
+app-data
