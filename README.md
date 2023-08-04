@@ -4,8 +4,8 @@ Added skeleton code for BE
 Added skeleton code for FE
 
 
-Time used -> prob 4 hours and 20 mins or so
-Time left -> 1 hours and 40
+Time used -> prob 4 hours 50 mins or so
+Time left -> 1 hours and 10
 
 
 for now checking only under cards table but need to check under forgotten cards as well as we should not create the card with same value and desc if it is forgotten or already present
@@ -78,7 +78,8 @@ Things I still need to do:
 3. Merge the psql and backend into the same docker file.
 4. Test and bug fix the code ( majority of it is done )
 5. Prevent incoming request to jump states 
-    Right now if the incoming state update is to 2 and in the next request I pass 9 , it goes through but it should not be the case. From 2 it needs to go to 3
+    Right now if the incoming state update is to 2 and in the next request I pass 9 , it goes through but it should not be the case. From 2 it needs to go to 3 ( This is complete )
+6. A issue only when sending requests from BE, If we keep sending the card updates for success or failure even after the thershold is hit ( 11 for stage and 10  for wrong , they keep updating ) ( complete )
 
 
 Improvements:

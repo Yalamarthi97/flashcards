@@ -12,11 +12,9 @@ update_card_state_schema={
     "properties":{
         "card_key":{"type":"string"},
         "id":{"type":"number"},
-        "wrong_choices":{"type":"number"},
-        "current_stage":{"type":"number"},
         "answered":{"type":"string"},
     },
-    "required":["id","wrong_choices","current_stage","answered","card_key"]
+    "required":["id","answered","card_key"]
 }
 
 update_card_desc_schema={
