@@ -1,7 +1,7 @@
 import time
 
 from drivers.psql_driver import driver as psql_object
-from common.constants import list_of_fetch_cards_cols,default_timelimits
+from common.constants import list_of_fetch_cards_cols,default_timelimits,admin_list_of_fetch_cards_cols
 
 from .queries import check_unique_card_value_query,insert_card_into_db_query,check_data_valid_exists_query,fetch_one_card_query,update_card_desc_query,set_card_to_next_stage_query,check_card_with_id_exists_query,get_cards_query,get_success_or_failed_cards_query,check_data_exists_query,reset_card_or_cards_query
 from .utils import extract_admin_return_data
@@ -49,13 +49,13 @@ def check_card_validity_and_update(card_id,wrong_choices,current_stage,answered)
     query=""
     if not answered:
         if wrong_choices + 1 == 10:
-            query=set_card_to_next_stage_query(card_id,current_stage,10,int(time.time()),False)
+            query=set_card_to_next_stage_query(card_id,current_stage,10,int(time.time()))
         else:
             query=set_card_to_next_stage_query(card_id,1,wrong_choices+1,int(time.time())+5)
             
     if answered:
         if current_stage+1 == 11:
-            query=set_card_to_next_stage_query(card_id,11,wrong_choices,int(time.time()),True)
+            query=set_card_to_next_stage_query(card_id,11,wrong_choices,int(time.time()))
         else:
             query=set_card_to_next_stage_query(card_id,current_stage+1,wrong_choices,int(time.time())+default_timelimits[current_stage+1])
 
@@ -76,7 +76,7 @@ def get_card_or_cards(card_id=None):
             response={}
             if not error:
                 for val in range (0,len(db_response)):
-                    response[list_of_fetch_cards_cols[val]]=db_response[val]
+                    response[admin_list_of_fetch_cards_cols[val]]=db_response[val]
                 return response,None , 200
             else:
                 return None,"Unabled to fetch data" , 500
@@ -93,7 +93,8 @@ def get_card_or_cards(card_id=None):
                 return None,"Unabled to fetch data" , 500
     
 def get_success_or_failed_cards(failed=None):
-    db_response,error=get_success_or_failed_cards_query(failed)
+    db_response_query=get_success_or_failed_cards_query(failed)
+    db_response,error=psql_instance.execute_fetch_query_for_all_data(db_response_query)
     if not error:
         return_response,error,code=extract_admin_return_data(db_response)
         return return_response,error,code

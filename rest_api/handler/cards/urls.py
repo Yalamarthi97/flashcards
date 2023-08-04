@@ -8,7 +8,7 @@ def card_urls_v1(app,prefix):
     app.add_url_rule(
         f"/{prefix}/admin/cards",
         view_func = AdminCards.as_view('cards_all_or_one'),
-        methods=["GET","DELETE"],
+        methods=["GET","DELETE","PATCH"],
     )
     app.add_url_rule(
         f"/{prefix}/admin/cards/success",

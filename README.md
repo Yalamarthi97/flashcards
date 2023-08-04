@@ -43,21 +43,20 @@ Session highlights:
 
     -> Before going into the implementations.. the hidden value on the db is present to divide the cards between the ones to be shown to the user and not shown
 
-    -> Answered boolean is added so that if the card was added into hidden because of wrong answering the answered is false , if the card is added because of completing all the bins answered is true.
     
 
-    a. If the answer is wrong and current wrong choices count is 9 -> Added the card to hidden (answered -> False ) 
+    a. If the answer is wrong and current wrong choices count is 9 -> Added the card to hidden 
     b. If the answer is wrong but current wrong choices count is < 9 -> Moved the card to bin 1 (current_stage ) , incremented wrong_choices by 1 and set the up_in time to current_time + 5 seconds ( as it is in bin 1)
-    c. If the answer is right and current bin is 10 -> Added the card to hidden ( answered -> True )
+    c. If the answer is right and current bin is 10 -> Added the card to hidden 
     d. If the answer is right and current bin < 10  -> Moved the card to current_bin + 1 , up_in time increased 
 
 4. Added get card/cards for admin -> This essentially is 2 apis
     a. Get details of 1 single card if card_id is provided
     b. Get all cards if the card_id is missing
 
-5. Get successfully cards for admin  ->  This is where the answered is being used where we are fetching all the cards where answered is true (i.e) all the stages has been passed
+5. Get successfully cards for admin  ->  We are fetching all the cards where current_stage = 11 and hidden is true (i.e) all the stages has been passed
 
-6.Get failed cards for admin  ->  This is where the answered is being used where we are fetching all the cards where answered is false (i.e) number of wrong choices is 10
+6.Get failed cards for admin  ->  We are fetching all the cards where wrong_choices = 10
 
 7. Added reset api for admin -> This is essentially 2 apis
     a. If a card_id is passed, That particular card is set to bin 0 , all wrong choices are removed and it is shown to the user
@@ -65,6 +64,8 @@ Session highlights:
         The idea for the above api is, since we are not allowing the user to add a card with the same key and desc and the user wants to re-review or revise, as an admin we can reset that card so that user can learn it again.
     
     b. reset all cards - > Essentially does the above but for all cards in the database
+
+8. Update card desc -> allowing this as of now just for admin
 
 
 Other than these there were couple more which I did implement:
@@ -75,6 +76,7 @@ Things I still need to do:
 1. Refactor the code ( its a maybe and under low prior)
 2. Added 2 or 3 more checks to return "you are temp done" and "completely done" under get
 3. Merge the psql and backend into the same docker file.
+4. Test and bug fix the code
 
 
 Improvements:
