@@ -77,6 +77,8 @@ Things I still need to do:
 2. Added 2 or 3 more checks to return "you are temp done" and "completely done" under get ( complete )
 3. Merge the psql and backend into the same docker file.
 4. Test and bug fix the code ( majority of it is done )
+5. Prevent incoming request to jump states 
+    Right now if the incoming state update is to 2 and in the next request I pass 9 , it goes through but it should not be the case. From 2 it needs to go to 3
 
 
 Improvements:

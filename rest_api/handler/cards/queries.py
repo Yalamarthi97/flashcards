@@ -18,8 +18,8 @@ def update_card_desc_query(card_desc,card_id):
     return f"""update  cards set card_desc ='{card_desc}' where id={card_id};"""
 
 def set_card_to_next_stage_query(card_id,current_stage,wrong_choices,up_in):
-    if wrong_choices == 10:
-        return f"""update cards set hidden=true , current_stage={current_stage} , wrong_choices={wrong_choices} where card_id={card_id} ;  """
+    if wrong_choices == 10 or current_stage == 11:
+        return f"""update cards set hidden=true , current_stage={current_stage} , wrong_choices={wrong_choices} where id={card_id} ;  """
     else:
         return f"""update cards set current_stage={current_stage} , wrong_choices={wrong_choices} , up_in ={up_in} where id={card_id};"""
     
