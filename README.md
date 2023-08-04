@@ -4,8 +4,8 @@ Added skeleton code for BE
 Added skeleton code for FE
 
 
-Time used -> prob 4 hours and 20 mins or so
-Time left -> 1 hours and 40
+Time used -> prob 4 hours 50 mins or so
+Time left -> 1 hours and 10
 
 
 for now checking only under cards table but need to check under forgotten cards as well as we should not create the card with same value and desc if it is forgotten or already present
