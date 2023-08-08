@@ -66,7 +66,7 @@ def check_card_validity_and_update(card_id,answered):
         wrong_choice=response[1]
     if error or not response:
         return "Failed to connect to db to get current stage"
-   
+
     if not answered:
         if wrong_choice + 1 == 10:
             query=set_card_to_next_stage_query(card_id,current_stage,10,int(time.time()))
