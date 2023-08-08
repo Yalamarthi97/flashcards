@@ -10,11 +10,10 @@ create_card_schema ={
 update_card_state_schema={
     "type":"object",
     "properties":{
-        "card_key":{"type":"string"},
         "id":{"type":"number"},
         "answered":{"type":"string"},
     },
-    "required":["id","answered","card_key"]
+    "required":["id","answered"]
 }
 
 update_card_desc_schema={
