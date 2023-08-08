@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: "http://localhost:5556/v1"
+    baseURL: "host.docker.internal:5555/v1"
 })
