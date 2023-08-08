@@ -39,14 +39,14 @@ export const adminResetOnecards = (card_id: number) => {
 
 export const adminGetAllCorrectCards = () => {
 
-    const data = apiclient.delete(`/admin/cards/success`);
+    const data = apiclient.get(`/admin/cards/success`);
 
     return data;
 }
 
 export const adminGetAllFailedCards = () => {
 
-    const data = apiclient.delete(`/admin/cards/failed`);
+    const data = apiclient.get(`/admin/cards/failed`);
 
     return data;
 }

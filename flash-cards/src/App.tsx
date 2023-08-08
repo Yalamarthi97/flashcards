@@ -33,17 +33,29 @@ function App() {
   const [cardName, setCardName] = useState("")
   const [cardDesc, setCardDesc] = useState("")
   const [addCardBool, setAddcardBool] = useState(false)
+  const [successfulcardsArray, setSuccessfulCardsArray] = useState([])
+  const [failedcardsArray, setFailedCardsArray] = useState([])
+
 
   const getSuccessfulCards = () => {
     adminGetAllCorrectCards().then(res => {
-      setfailedCards(true)
+      setSuccessfulCardsArray(res.data.message)
+      setSuccessfulCards(true)
+      setAddcardBool(false)
+      setfailedCards(false)
+      setOneState(false)
       console.log(res.data.message)
     }).catch(console.error)
 
   }
   const getFailedCards = () => {
     adminGetAllFailedCards().then(res => {
-      setSuccessfulCards(true)
+      setSuccessfulCards(false)
+      setAddcardBool(false)
+      setfailedCards(true)
+      setOneState(false)
+      //  Reusing the same state .. 99% sure this is not the right way
+      setFailedCardsArray(res.data.message)
       console.log(res.data.message)
     }).catch(console.error)
   }
@@ -83,9 +95,13 @@ function App() {
   const fetchOneCard = () => {
     console.log(val)
     adminFetchOneCard(val).then(res => {
-
-      setFetchOneData(res.data.message)
+      setAdminAllcards([])
+      //  Reusing the same state .. 99% sure this is not the right way
+      setAdminAllcards(res.data.message)
       setOneState(true)
+      setAddcardBool(false)
+      setfailedCards(false)
+      setSuccessfulCards(false)
       console.log(res.data.message)
     }).catch(console.error)
   }
@@ -222,7 +238,7 @@ function App() {
           <div className="p-2"><Button variant="success" onClick={fetchAllCards}>All Cards</Button></div>
           <div className="p-2"><Button variant="success" onClick={resetAllCards}>Reset all cards</Button></div>
           <div className="p-2"><Button variant="success" onClick={getSuccessfulCards}>Learnt Cards</Button></div>
-          <div className="p-2"><Button variant="success" onClick={getFailedCards}>Forgotten Cards</Button></div>
+          <div className="p-2"><Button variant="success" onClick={getFailedCards}>Forgotten/Completed Cards</Button></div>
         </Stack>
         {allcardsBool && <Row>
 
@@ -231,10 +247,10 @@ function App() {
         {resetState && <Row>
           Reset the entire data base, All the cards have been moved to bucket 0
         </Row>}
-        {successfulcards && <Row> Table comes in here
+        {successfulcards && <Row> {DataTable(successfulcardsArray)}
         </Row>}
 
-        {failedcards && <Row> Table goes here for failed cards </Row>}
+        {failedcards && <Row> {DataTable(failedcardsArray)} </Row>}
       </Row>
       <Row>
         <Stack direction="horizontal" gap={3}>
@@ -253,7 +269,7 @@ function App() {
               <Button variant='primary' style={{ "alignSelf": "right" }} onClick={fetchOneCard}> Submit</Button>
               {oneState && <Row>
 
-                {DataTable(fetchoneData)}
+                {DataTable(adminAllcards)}
               </Row>}
             </div>}
 

@@ -4,8 +4,8 @@ Added skeleton code for BE
 Added skeleton code for FE
 
 
-Time used -> prob 4 hours 50 mins or so
-Time left -> 1 hours and 10
+Time used -> prob 8 + hours or almost 8 hours
+Time left -> 0 
 
 
 for now checking only under cards table but need to check under forgotten cards as well as we should not create the card with same value and desc if it is forgotten or already present
@@ -91,3 +91,24 @@ What would I change if more time given:
 2. I felt like I have a lot of queries which infact I can reduce it by making them dynamic based on the a couple of parameters but I did not want to take that route yet.. Just wanted to get a rough draft done before I do optimizations.
 3. I could have split the admin urls and views out from generic cards thus creating a new handler for easier code readibility and maintainablity but didnt as I wanted to finish the draft first in the given time frame.
 4. I need to get back and add comments , there are couple of places where comments are required!
+
+
+React side:
+Gotta Agree, not my cup of tea yet, did a small course and started working on this and i know i still have a very long way!
+
+Stuff implemented:
+1. Create card
+2. Get card
+3. Edge cases and their responses [ no cards , perma done and stuff]
+4. Admin lvl apis for fetch all cards
+5. Reset all cards
+6. Completed Cards ( either with wrong answers -> 10 or state 11)
+7. Learnt cards -> state 11
+8. Admin Fetch 1 card
+
+Issues:
+1. Clicking on fetch of admin cards is not hiding the previous ones, but appending to the data table ( prob has something to do with reusing the data table maybe)
+2. The errors are not caught / used 
+3. This is just a rough piece which i did with couple of hours in react refresh after almost a year away so there will be sub par implementation and bugs !
+
+
