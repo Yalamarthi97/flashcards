@@ -4,7 +4,7 @@ Added skeleton code for BE
 Added skeleton code for FE
 
 
-Time used -> prob 8 + hours or almost 8 hours
+Time used -> prob 8 hours 30 mins
 Time left -> 0 
 
 
@@ -111,4 +111,48 @@ Issues:
 2. The errors are not caught / used 
 3. This is just a rough piece which i did with couple of hours in react refresh after almost a year away so there will be sub par implementation and bugs !
 
+Deployments:
+Deployed into AWS ec2 instances
+
+Common commands ran for both FE and BE Ec2 instance deployments:
+1. yum install docker
+2. yum install git
+3. git config --global user.name ""
+4. git config --global user.email ""
+5. service docker start 
+6. usermod -a -G docker ec2-user 
+7. sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+8. git clone https://github.com/Yalamarthi97/hiring-sriharsha-y-flashcards.git
+
+
+After cloning 
+
+For deploying BE:
+1. cd into rest_api
+2. docker-compose -f psql_docker-compomse,yml up -d
+3. docker-compose -f docker-compomse,yml build
+4. docker-compose -f docker-compomse,yml up -d
+
+For Deploying FE:
+1. cd into flash-cards
+2. update apiConnection.tsx under utils to point to BE deployed url
+3. docker-compose -f docker-compose build
+4. docker-compose -f docker-compose up 
+
+
+Networking Added:
+psql port  at 5432
+backend rest api at port 5555
+frontend port at 3000
+
+For running in local:
+1. run psql_docker-compose
+2. Update .env under backend folder to point to psql port and endpoint -> host.docker.internal
+3. run docker-compose for be
+4. update apiConnection.tsx to host.docker.internal along with port of 5556 / 5555 based on BE docker-compose
+5. run docker-compomse up of FE
+
+
+Deployments Folder is just for references!!
 

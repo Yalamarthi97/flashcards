@@ -6,6 +6,8 @@ services:
       context: ./rest_api
       dockerfile: Dockerfile
     container_name: backend
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     env_file:
       - ./rest_api/.env
     ports:
@@ -14,6 +16,8 @@ services:
     command: gunicorn --bind 0.0.0.0:5000 wsgi:app --worker-class=gevent --worker-connections=1000 --workers=6 --threads=4 --timeout 600 --reload --access-logfile '-'
     volumes:
       - ../:/app/
+    depends_on:
+      - db
 
   db:
     image: postgres:14.1-alpine
@@ -23,18 +27,25 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - '5433:5432'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ../app-data/db:/var/lib/postgresql/data
-  # frontend:
-  #   container_name: frontend
-  #   build: ./flash-cards
-  #   volumes:
-  #     - './:/app'
-  #     - '/app/node_modules'
-  #   ports:
-  #     - 3000:3000
-  #   stdin_open: true
-  #   command: npm start
+
+  frontend:
+    container_name: frontend
+    build: ./flash-cards
+    volumes:
+      - './:/app'
+      - '/app/node_modules'
+    ports:
+      - 3000:3000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    stdin_open: true
+    command: npm start
+    depends_on:
+      - backend
 
 volumes:
   db:
