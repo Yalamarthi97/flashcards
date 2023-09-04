@@ -9,23 +9,8 @@ services:
     env_file:
       - .env
     ports:
-      - "5556:5000"
+      - "5000:5000"
     restart: always
-    command: gunicorn --bind 0.0.0.0:5000 wsgi:app --worker-class=gevent --worker-connections=1000 --workers=6 --threads=4 --timeout 600 --reload --access-logfile '-'
+    command: gunicorn --bind 0.0.0.0:5000 wsgi:app --worker-class=gevent --worker-connections=1 --workers=1 --threads=1 --timeout 600 --reload --access-logfile '-'
     volumes:
       - ../:/app/
-
-  db:
-    image: postgres:14.1-alpine
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - '5433:5432'
-    volumes:
-      - ../app-data/db:/var/lib/postgresql/data
-
-volumes:
-  db:
-    driver: local
