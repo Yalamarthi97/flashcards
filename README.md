@@ -1,4 +1,5 @@
-# hiring-sriharsha-y-flashcards
+Flash cards application
+
 
 Added skeleton code for BE
 Added skeleton code for FE
