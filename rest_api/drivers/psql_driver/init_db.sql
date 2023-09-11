@@ -1,3 +1,5 @@
+-- This is not being used.. this is just for tracking the db changes
+
 create table cards(
     id serial primary key ,
     created_at bigint default  extract (epoch from now()),

@@ -3,14 +3,35 @@ services:
   rest_api:
     hostname: rest_api
     build:
-      context: ./
+      context: ./rest_api
       dockerfile: Dockerfile
     container_name: backend
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     env_file:
-      - .env
+      - ./rest_api/.env
     ports:
-      - "5000:5000"
-    restart: always
-    command: gunicorn --bind 0.0.0.0:5000 wsgi:app --worker-class=gevent --worker-connections=1 --workers=1 --threads=1 --timeout 600 --reload --access-logfile '-'
+      - "5555:5000"
+
+    command: gunicorn --bind 0.0.0.0:5000 wsgi:app --worker-class=gevent --worker-connections=1000 --workers=6 --threads=4 --timeout 600 --reload --access-logfile '-'
     volumes:
       - ../:/app/
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5433:5432'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ../app-data/db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    driver: local
