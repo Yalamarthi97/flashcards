@@ -14,4 +14,3 @@ WORKDIR /app/rest_api
 
 CMD export FLASK_APP=app
 EXPOSE 5000
-
