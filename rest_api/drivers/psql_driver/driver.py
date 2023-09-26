@@ -5,8 +5,6 @@ from .decorators import use_cursor, do_in_transaction
 from sqlalchemy import create_engine
 
 
-
-
 class PostgresDriver:
     def __init__(self):
         self.conn = psycopg2.connect(
@@ -18,53 +16,56 @@ class PostgresDriver:
         )
 
         self.conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
-        
+
+    def __get_db__(self):
+        return self.engine
 
     @use_cursor
     @do_in_transaction
-    def execute_fetch_query_single_value(self,query,cursor):
+    def execute_fetch_query_single_value(self, query, cursor):
         try:
             cursor.execute(query)
             response = cursor.fetchone()
-            return response[0],None
+            return response[0], None
         except Exception as e:
-            logging.error("Encountered error when fetching data from db -> "+str(e))
-            return None,"Failed to fetch data"
-    
+            logging.error("Encountered error when fetching data from db -> " + str(e))
+            return None, "Failed to fetch data"
+
     @use_cursor
     @do_in_transaction
-    def execute_fetch_query_single_row(self,query,cursor):
+    def execute_fetch_query_single_row(self, query, cursor):
         try:
             cursor.execute(query)
             response = cursor.fetchone()
-            return response,None
+            return response, None
         except Exception as e:
-            logging.error("Encountered error when fetching data from db -> "+str(e))
-            return None,"Failed to fetch data"
-    
+            logging.error("Encountered error when fetching data from db -> " + str(e))
+            return None, "Failed to fetch data"
+
     @use_cursor
     @do_in_transaction
-    def execute_fetch_query_for_all_data(self,query,cursor):
+    def execute_fetch_query_for_all_data(self, query, cursor):
         try:
             cursor.execute(query)
             response = cursor.fetchall()
-            return response,None
+            return response, None
         except Exception as e:
-            logging.error("Encountered error when fetching data from db -> "+str(e))
-            return None,"Failed to fetch data"
-        
+            logging.error("Encountered error when fetching data from db -> " + str(e))
+            return None, "Failed to fetch data"
 
     @use_cursor
     @do_in_transaction
-    def execute_query(self,query,cursor):
+    def execute_query(self, query, cursor):
         try:
             cursor.execute(query)
             return None
         except Exception as e:
-            logging.error("Encountered error when fetching data from db -> "+str(e))
+            logging.error("Encountered error when fetching data from db -> " + str(e))
             return "Failed to execute query"
-        
+
+
 psql_instance = None
+
 
 def get_instance():
     global psql_instance

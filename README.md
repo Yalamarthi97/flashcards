@@ -6,12 +6,12 @@ Added skeleton code for FE
 
 
 Time used -> prob 8 hours 30 mins
-Time left -> 0 
+Time left -> 0
 
 
 for now checking only under cards table but need to check under forgotten cards as well as we should not create the card with same value and desc if it is forgotten or already present
 
-Set time limit for myself -> 7 hours 
+Set time limit for myself -> 7 hours
 
 Hour 1 + 20 mins:  Time left approx -> 5 hours 40 mins
 
@@ -22,7 +22,7 @@ Hour 1 + 20 mins:  Time left approx -> 5 hours 40 mins
 5. Added cards view and url
 6. Troubelshooting on why flask was not restarting
 7. Worked on creating the tables into the psql instance and storing the data
-8. Updated requirements.txt 
+8. Updated requirements.txt
 9. Tried connecting to psql through docker ( I kinda was left searching for some answers on the internet)
 10. Iterated over various ways on how  I can acheive this project
 
@@ -44,12 +44,12 @@ Session highlights:
 
     -> Before going into the implementations.. the hidden value on the db is present to divide the cards between the ones to be shown to the user and not shown
 
-    
 
-    a. If the answer is wrong and current wrong choices count is 9 -> Added the card to hidden 
+
+    a. If the answer is wrong and current wrong choices count is 9 -> Added the card to hidden
     b. If the answer is wrong but current wrong choices count is < 9 -> Moved the card to bin 1 (current_stage ) , incremented wrong_choices by 1 and set the up_in time to current_time + 5 seconds ( as it is in bin 1)
-    c. If the answer is right and current bin is 10 -> Added the card to hidden 
-    d. If the answer is right and current bin < 10  -> Moved the card to current_bin + 1 , up_in time increased 
+    c. If the answer is right and current bin is 10 -> Added the card to hidden
+    d. If the answer is right and current bin < 10  -> Moved the card to current_bin + 1 , up_in time increased
 
 4. Added get card/cards for admin -> This essentially is 2 apis
     a. Get details of 1 single card if card_id is provided
@@ -63,7 +63,7 @@ Session highlights:
     a. If a card_id is passed, That particular card is set to bin 0 , all wrong choices are removed and it is shown to the user
 
         The idea for the above api is, since we are not allowing the user to add a card with the same key and desc and the user wants to re-review or revise, as an admin we can reset that card so that user can learn it again.
-    
+
     b. reset all cards - > Essentially does the above but for all cards in the database
 
 8. Update card desc -> allowing this as of now just for admin
@@ -78,7 +78,7 @@ Things I still need to do:
 2. Added 2 or 3 more checks to return "you are temp done" and "completely done" under get ( complete )
 3. Merge the psql and backend into the same docker file.
 4. Test and bug fix the code ( majority of it is done )
-5. Prevent incoming request to jump states 
+5. Prevent incoming request to jump states
     Right now if the incoming state update is to 2 and in the next request I pass 9 , it goes through but it should not be the case. From 2 it needs to go to 3 ( This is complete )
 6. A issue only when sending requests from BE, If we keep sending the card updates for success or failure even after the thershold is hit ( 11 for stage and 10  for wrong , they keep updating ) ( complete )
 
@@ -109,7 +109,7 @@ Stuff implemented:
 
 Issues:
 1. Clicking on fetch of admin cards is not hiding the previous ones, but appending to the data table ( prob has something to do with reusing the data table maybe)
-2. The errors are not caught / used 
+2. The errors are not caught / used
 3. This is just a rough piece which i did with couple of hours in react refresh after almost a year away so there will be sub par implementation and bugs !
 
 Deployments:
@@ -120,14 +120,14 @@ Common commands ran for both FE and BE Ec2 instance deployments:
 2. yum install git
 3. git config --global user.name ""
 4. git config --global user.email ""
-5. service docker start 
-6. usermod -a -G docker ec2-user 
+5. service docker start
+6. usermod -a -G docker ec2-user
 7. sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 8. git clone https://github.com/Yalamarthi97/hiring-sriharsha-y-flashcards.git
 
 
-After cloning 
+After cloning
 
 For deploying BE:
 1. cd into rest_api
@@ -139,7 +139,7 @@ For Deploying FE:
 1. cd into flash-cards
 2. update apiConnection.tsx under utils to point to BE deployed url
 3. docker-compose -f docker-compose build
-4. docker-compose -f docker-compose up 
+4. docker-compose -f docker-compose up
 
 
 Networking Added:
@@ -156,4 +156,3 @@ For running in local:
 
 
 Deployments Folder is just for references!!
-
